@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthDTO } from '../Models/auth.dto';
+import { lastValueFrom } from 'rxjs';
 
 interface AuthToken {
   user_id: string;
@@ -20,6 +21,6 @@ export class AuthService {
   }
 
   login(auth: AuthDTO): Promise<AuthToken> {
-    return this.http.post<AuthToken>(this.urlBlogUocApi, auth).toPromise();
+    return lastValueFrom(this.http.post<AuthToken>(this.urlBlogUocApi, auth));
   }
 }

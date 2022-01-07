@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { lastValueFrom } from 'rxjs';
 import { UserDTO } from '../Models/user.dto';
 
 @Injectable({
@@ -15,18 +16,18 @@ export class UserService {
   }
 
   register(user: UserDTO): Promise<UserDTO> {
-    return this.http.post<UserDTO>(this.urlBlogUocApi, user).toPromise();
+    return lastValueFrom(this.http.post<UserDTO>(this.urlBlogUocApi, user));
   }
 
   updateUser(userId: string, user: UserDTO): Promise<UserDTO> {
-    return this.http
-      .put<UserDTO>(this.urlBlogUocApi + '/' + userId, user)
-      .toPromise();
+    return lastValueFrom(
+      this.http.put<UserDTO>(this.urlBlogUocApi + '/' + userId, user)
+    );
   }
 
   getUSerById(userId: string): Promise<UserDTO> {
-    return this.http
-      .get<UserDTO>(this.urlBlogUocApi + '/' + userId)
-      .toPromise();
+    return lastValueFrom(
+      this.http.get<UserDTO>(this.urlBlogUocApi + '/' + userId)
+    );
   }
 }
