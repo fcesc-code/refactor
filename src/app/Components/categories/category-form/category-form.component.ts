@@ -14,7 +14,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 @Component({
   selector: 'app-category-form',
   templateUrl: './category-form.component.html',
-  styleUrls: ['./category-form.component.scss'],
+  styleUrls: ['./category-form.component.sass'],
 })
 export class CategoryFormComponent implements OnInit {
   category: CategoryDTO;

@@ -8,7 +8,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 @Component({
   selector: 'app-categories-list',
   templateUrl: './categories-list.component.html',
-  styleUrls: ['./categories-list.component.scss'],
+  styleUrls: ['./categories-list.component.sass'],
 })
 export class CategoriesListComponent {
   categories!: CategoryDTO[];

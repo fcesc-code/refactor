@@ -23,8 +23,8 @@
     style="color: red"
     *ngIf="email.errors && (email.touched || email.dirty)"
   >
-    <span *ngIf="email.errors.required">Email is required</span>
-    <div *ngIf="email.errors.pattern">Email not a valid format.</div>
+    <span *ngIf="email.errors['required']">Email is required</span>
+    <div *ngIf="email.errors['pattern']">Email not a valid format.</div>
   </span>
 </div>
 
@@ -33,11 +33,11 @@
     style="color: red"
     *ngIf="password.errors && (password.touched || password.dirty)"
   >
-    <span *ngIf="password.errors.required">Password is required</span>
-    <span *ngIf="password.errors.minlength"
+    <span *ngIf="password.errors['required']">Password is required</span>
+    <span *ngIf="password.errors['minlength']"
       >Password must be greater tha 8 characters</span
     >
-    <span *ngIf="password.errors.maxlength"
+    <span *ngIf="password.errors['maxlength']"
       >Password can be max 16 characters long</span
     >
   </span>

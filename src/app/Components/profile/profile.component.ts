@@ -14,7 +14,7 @@ import { UserService } from 'src/app/Services/user.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+  styleUrls: ['./profile.component.sass'],
 })
 export class ProfileComponent implements OnInit {
   profileUser: UserDTO;
