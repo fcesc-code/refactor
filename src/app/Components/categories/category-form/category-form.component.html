@@ -1,0 +1,67 @@
+<div style="margin-left: auto; margin-right: auto">
+  <p id="categoryFeedback"></p>
+</div>
+<div>
+  <h1>Category form</h1>
+  <form
+    *ngIf="categoryForm"
+    [formGroup]="categoryForm"
+    (ngSubmit)="saveCategory()"
+  >
+    <div>
+      <label for="title">Title:</label>
+      <input type="text" [formControl]="title" />
+
+      <div *ngIf="title.errors">
+        <div
+          *ngIf="title.errors && isValidForm != null && !isValidForm"
+          [ngClass]="'error'"
+        >
+          <div *ngIf="title.errors.required">Title is required</div>
+
+          <div *ngIf="title.errors.maxlength">
+            Title can be max 55 characters long.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="description">Description:</label>
+      <input type="text" [formControl]="description" />
+
+      <div *ngIf="description.errors">
+        <div
+          *ngIf="description.errors && isValidForm != null && !isValidForm"
+          [ngClass]="'error'"
+        >
+          <div *ngIf="description.errors.required">Description is required</div>
+
+          <div *ngIf="description.errors.maxlength">
+            Description can be max 255 characters long.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="description">Css color:</label>
+      <input type="text" [formControl]="css_color" />
+
+      <div *ngIf="css_color.errors">
+        <div
+          *ngIf="css_color.errors && isValidForm != null && !isValidForm"
+          [ngClass]="'error'"
+        >
+          <div *ngIf="css_color.errors.required">Css color is required</div>
+
+          <div *ngIf="css_color.errors.maxlength">
+            Css color can be max 7 characters long.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit">SAVE</button>
+  </form>
+</div>

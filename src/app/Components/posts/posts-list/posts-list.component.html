@@ -1,0 +1,29 @@
+<h2>Post List</h2>
+<button (click)="createPost()">ADD</button>
+
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>TITLE</th>
+      <th>DESCRIPTION</th>
+      <th>NUM LIKES</th>
+      <th>NUM DISLIKES</th>
+      <th>ACTIONS</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let post of posts">
+      <td>{{ post.postId }}</td>
+      <td>{{ post.title }}</td>
+      <td>{{ post.description }}</td>
+      <td>{{ post.num_likes }}</td>
+      <td>{{ post.num_dislikes }}</td>
+
+      <td>
+        <button (click)="updatePost(post.postId)">UPDATE</button>
+        <button (click)="deletePost(post.postId)">DELETE</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

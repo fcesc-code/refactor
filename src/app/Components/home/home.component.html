@@ -1,0 +1,31 @@
+<p>List All posts</p>
+
+<div style="text-align: center">
+  <div *ngFor="let post of posts" class="card">
+    <div class="container">
+      <div>
+        <span
+          *ngFor="let category of post.categories"
+          class="badge"
+          [ngStyle]="{ 'background-color': category.css_color }"
+        >
+          {{ category.title }}
+        </span>
+      </div>
+    </div>
+
+    <h4>
+      <b>Title: {{ post.title }}</b>
+    </h4>
+    <p>Description: {{ post.description }}</p>
+    <p>Likes: {{ post.num_likes }}</p>
+    <p>Dislikes: {{ post.num_dislikes }}</p>
+    <p>Publication date: {{ post.publication_date | formatDate: 3 }}</p>
+    <p>Published by: {{ post.userAlias }}</p>
+
+    <div *ngIf="showButtons">
+      <button (click)="like(post.postId)">Like</button>
+      <button (click)="dislike(post.postId)">Dislike</button>
+    </div>
+  </div>
+</div>

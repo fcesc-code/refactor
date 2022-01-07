@@ -1,0 +1,70 @@
+<div style="margin-left: auto; margin-right: auto">
+  <p id="postFeedback"></p>
+</div>
+<div>
+  <h1>Post form</h1>
+  <form *ngIf="postForm" [formGroup]="postForm" (ngSubmit)="savePost()">
+    <div>
+      <label for="title">Title:</label>
+      <input type="text" [formControl]="title" />
+
+      <div *ngIf="title.errors">
+        <div
+          *ngIf="title.errors && isValidForm != null && !isValidForm"
+          [ngClass]="'error'"
+        >
+          <div *ngIf="title.errors.required">Title is required</div>
+
+          <div *ngIf="title.errors.maxlength">
+            Title can be max 55 characters long.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="description">Description:</label>
+      <input type="text" [formControl]="description" />
+
+      <div *ngIf="description.errors">
+        <div
+          *ngIf="description.errors && isValidForm != null && !isValidForm"
+          [ngClass]="'error'"
+        >
+          <div *ngIf="description.errors.required">Description is required</div>
+
+          <div *ngIf="description.errors.maxlength">
+            Description can be max 255 characters long.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="publicationDate">Publication date: </label>
+      <input type="date" [formControl]="publication_date" />
+      <div
+        *ngIf="publication_date.errors && isValidForm != null && !isValidForm"
+        [ngClass]="'error'"
+      >
+        <div *ngIf="publication_date.errors.required">
+          Publication date is required
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <label for="categories">Choose categories:</label>
+      <select multiple [formControl]="categories">
+        <option
+          *ngFor="let category of categoriesList"
+          [ngValue]="category.categoryId"
+        >
+          {{ category.title }}
+        </option>
+      </select>
+    </div>
+
+    <button type="submit">SAVE</button>
+  </form>
+</div>
