@@ -7,7 +7,7 @@ import { LocalStorageService } from 'src/app/Services/local-storage.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.sass'],
 })
 export class HeaderComponent implements OnInit {
   showAuthSection: boolean;

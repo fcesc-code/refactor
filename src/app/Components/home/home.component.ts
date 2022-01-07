@@ -10,7 +10,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.component.sass'],
 })
 export class HomeComponent {
   posts!: PostDTO[];

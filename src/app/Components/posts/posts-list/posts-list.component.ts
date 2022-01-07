@@ -8,7 +8,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 @Component({
   selector: 'app-posts-list',
   templateUrl: './posts-list.component.html',
-  styleUrls: ['./posts-list.component.scss'],
+  styleUrls: ['./posts-list.component.sass'],
 })
 export class PostsListComponent {
   posts!: PostDTO[];

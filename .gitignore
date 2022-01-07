@@ -1,19 +1,205 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# compiled output
-/dist
-/tmp
-/out-tsc
-# Only exists if Bazel was run
-/bazel-out
+# Francesc Brugarolas - Advanced Frontend Frameworks - December 2021
+# Customized .gitignore project rules
 
 # dependencies
-/node_modules
+node_modules/
+jspm_packages/
+
+# testing
+coverage/
+.scannerwork/
+lib-cov/
+*.lcov
+*.nyc_output
+ 
+# production
+/built
+/build
+/build/Release
+/dist
+/out-tsc
+/tmp
+
+# Only exists if Bazel was run
+bazel-out/
 
 # profiling files
 chrome-profiler-events*.json
+speed-measure-plugin*.json
 
-# IDEs and editors
+#Typescript
+typings/
+*.tsbuildinfo
+
+# environments
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+environment.*
+/environments
+/environment
+
+#log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/libpeerconnection.log
+*.log
+logs/
+/connect.lock
+testem.log
+
+#caches
+#npm
+.npm
+#eslint
+.eslintcache
+#parcel
+.cache
+#webpack
+.cache-loader
+.awcache
+#sass
+/.sass-cache
+#angular
+/.angular/cache
+#firebase
+.firebase/
+#*.cache
+
+#project media files
+media/
+assets/
+
+#project versions, copies and temporary folders
+backup/
+versions/
+delete/
+temp/
+
+#mockdata files
+*mockdata*.js
+*mockdata*.json
+*mockdata*.csv
+*mockdata*.xml
+*mockdata*.txt
+
+#media files
+#images
+#*.ico
+*.ai
+*.apng
+*.bmp
+*.eps
+*.gif
+*.jpg
+*.jpeg
+*.png
+*.ps
+*.psd
+*.raw
+*.svg
+*.tif
+*.tiff
+*.WebP
+#audio
+*.aac
+*.adts
+*.aif
+*.cda
+*.flac
+*.mid
+*.mpa
+*.mp3
+*.oga
+*.wav
+*.wma
+#video
+*.3g2
+*.3gp
+*.avi
+*.flv
+*.h264
+*.m4v
+*.mov
+*.mp4
+*.mpg
+*.mpeg
+*.ogg
+*.rm
+*.swf
+*.WebM
+*.wmv
+#fonts
+*.eot
+*.fnt
+*.fon
+*.otf
+*.ttf
+*.woff
+*.woff2
+
+#docs files
+*.xlsx
+*.xls
+*.ods
+*.docx
+*.doc
+*.odt
+*.pptx
+*.ppt
+*.odp
+*.pdf
+*.excalidraw
+*.xcf
+*.tex
+*.txt
+*.tmp
+
+#compressed files
+*.zip
+*.rar
+*.tgz
+*.tar.gz
+*.gz
+*.7z
+*.arj
+*.pkg
+*.z
+
+#config files
+*APICONFIG.*
+*apiconfig.*
+*SECRET*.*
+*secret*.*
+*KEYS*.*
+*keys*.*
+
+# Sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+## Following rules were added based on https://github.com/github/gitignore/tree/master/Global recommendations ##
+### Git ###
+# Created by git for backups.
+*.orig
+# Created by git when using merge tools for conflicts
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*_BACKUP_*.txt
+*_BASE_*.txt
+*_LOCAL_*.txt
+*_REMOTE_*.txt
+
+### Node ###
+.node_repl_history
+
+#IDEs and editors
 /.idea
 .project
 .classpath
@@ -22,24 +208,73 @@ chrome-profiler-events*.json
 .settings/
 *.sublime-workspace
 
-# IDE - VSCode
+### Visual Studio Code ###
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
+*.code-workspace
+# Local History for Visual Studio Code
+.history/
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
-.DS_Store
+### Windows ###
+# Windows thumbnail cache files
 Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+# Dump file
+*.stackdump
+# Folder config file
+[Dd]esktop.ini
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+# Windows shortcuts
+*.lnk
+
+### Apple ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
+# Icon must end with two \r
+Icon^M
+# Thumbnails
+._*
+# Files that might appear in the root of a volume
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+### Linux ###
+*~
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+# KDE directory preferences
+.directory
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock

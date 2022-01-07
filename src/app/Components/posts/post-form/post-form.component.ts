@@ -17,7 +17,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 @Component({
   selector: 'app-post-form',
   templateUrl: './post-form.component.html',
-  styleUrls: ['./post-form.component.scss'],
+  styleUrls: ['./post-form.component.sass'],
 })
 export class PostFormComponent implements OnInit {
   post: PostDTO;

@@ -16,7 +16,7 @@ import { SharedService } from 'src/app/Services/shared.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.sass'],
 })
 export class LoginComponent implements OnInit {
   loginUser: AuthDTO;
