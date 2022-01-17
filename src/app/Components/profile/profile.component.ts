@@ -90,8 +90,6 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    let errorResponse: any;
-
     // load user data
     const userId = this.localStorageService.get('user_id');
     if (userId) {
@@ -117,42 +115,36 @@ export class ProfileComponent implements OnInit {
           password: this.password,
         });
       } catch (error: any) {
-        errorResponse = error.error;
-        this.sharedService.errorLog(errorResponse);
+        this.sharedService.errorLog(error.error);
       }
     }
   }
 
   async updateUser(): Promise<void> {
-    let responseOK: boolean = false;
     this.isValidForm = false;
-    let errorResponse: any;
-
-    if (this.profileForm.invalid) {
-      return;
-    }
-
-    this.isValidForm = true;
-    this.profileUser = this.profileForm.value;
-
     const userId = this.localStorageService.get('user_id');
-
-    if (userId) {
-      try {
-        await this.userService.updateUser(userId, this.profileUser);
-        responseOK = true;
-      } catch (error: any) {
-        responseOK = false;
-        errorResponse = error.error;
-
-        this.sharedService.errorLog(errorResponse);
-      }
+    if (this.validateForm() && userId) {
+      this.updateUserBackend(userId);
     }
+  }
 
-    await this.sharedService.managementToast(
-      'profileFeedback',
-      responseOK,
-      errorResponse
-    );
+  async updateUserBackend(userId: string): Promise<void> {
+    try {
+      this.profileUser = this.profileForm.value;
+      await this.userService.updateUser(userId, this.profileUser);
+      await this.sharedService.managementToast('profileFeedback', true);
+    } catch (error: any) {
+      this.logProfileError(error.error);
+    }
+  }
+
+  private async logProfileError(error: any): Promise<void> {
+    this.sharedService.errorLog(error);
+    await this.sharedService.managementToast('profileFeedback', false, error);
+  }
+
+  private validateForm(): boolean {
+    this.isValidForm = !this.profileForm.invalid;
+    return this.isValidForm;
   }
 }

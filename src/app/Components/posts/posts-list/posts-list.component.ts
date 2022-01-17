@@ -22,14 +22,12 @@ export class PostsListComponent {
   }
 
   private async loadPosts(): Promise<void> {
-    let errorResponse: any;
     const userId = this.localStorageService.get('user_id');
     if (userId) {
       try {
         this.posts = await this.postService.getPostsByUserId(userId);
       } catch (error: any) {
-        errorResponse = error.error;
-        this.sharedService.errorLog(errorResponse);
+        this.sharedService.errorLog(error.error);
       }
     }
   }
@@ -43,20 +41,20 @@ export class PostsListComponent {
   }
 
   async deletePost(postId: string): Promise<void> {
-    let errorResponse: any;
+    let UIconfirmation = confirm(`Confirm delete post with id: ${postId}.`);
+    if (UIconfirmation) {
+      this.deletePostBackEnd(postId);
+    }
+  }
 
-    // show confirmation popup
-    let result = confirm('Confirm delete post with id: ' + postId + ' .');
-    if (result) {
-      try {
-        const rowsAffected = await this.postService.deletePost(postId);
-        if (rowsAffected.affected > 0) {
-          this.loadPosts();
-        }
-      } catch (error: any) {
-        errorResponse = error.error;
-        this.sharedService.errorLog(errorResponse);
+  async deletePostBackEnd(postId: string): Promise<void> {
+    try {
+      const rowsAffected = await this.postService.deletePost(postId);
+      if (rowsAffected.affected > 0) {
+        this.loadPosts();
       }
+    } catch (error: any) {
+      this.sharedService.errorLog(error.error);
     }
   }
 }

@@ -36,7 +36,6 @@ export class HomeComponent {
     );
   }
   private async loadPosts(): Promise<void> {
-    let errorResponse: any;
     const userId = this.localStorageService.get('user_id');
     if (userId) {
       this.showButtons = true;
@@ -44,30 +43,25 @@ export class HomeComponent {
     try {
       this.posts = await this.postService.getPosts();
     } catch (error: any) {
-      errorResponse = error.error;
-      this.sharedService.errorLog(errorResponse);
+      this.sharedService.errorLog(error.error);
     }
   }
 
   async like(postId: string): Promise<void> {
-    let errorResponse: any;
     try {
       await this.postService.likePost(postId);
       this.loadPosts();
     } catch (error: any) {
-      errorResponse = error.error;
-      this.sharedService.errorLog(errorResponse);
+      this.sharedService.errorLog(error.error);
     }
   }
 
   async dislike(postId: string): Promise<void> {
-    let errorResponse: any;
     try {
       await this.postService.dislikePost(postId);
       this.loadPosts();
     } catch (error: any) {
-      errorResponse = error.error;
-      this.sharedService.errorLog(errorResponse);
+      this.sharedService.errorLog(error.error);
     }
   }
 }

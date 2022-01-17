@@ -23,16 +23,14 @@ export class CategoriesListComponent {
   }
 
   private async loadCategories(): Promise<void> {
-    let errorResponse: any;
-    const userId = this.localStorageService.get('user_id');
+    const userId: string | null = this.localStorageService.get('user_id');
     if (userId) {
       try {
         this.categories = await this.categoryService.getCategoriesByUserId(
           userId
         );
       } catch (error: any) {
-        errorResponse = error.error;
-        this.sharedService.errorLog(errorResponse);
+        this.sharedService.errorLog(error.error);
       }
     }
   }
@@ -46,24 +44,24 @@ export class CategoriesListComponent {
   }
 
   async deleteCategory(categoryId: string): Promise<void> {
-    let errorResponse: any;
-
-    // show confirmation popup
-    let result = confirm(
-      'Confirm delete category with id: ' + categoryId + ' .'
+    let UIconfirmation = confirm(
+      `Confirm delete category with id: ${categoryId}.`
     );
-    if (result) {
-      try {
-        const rowsAffected = await this.categoryService.deleteCategory(
-          categoryId
-        );
-        if (rowsAffected.affected > 0) {
-          this.loadCategories();
-        }
-      } catch (error: any) {
-        errorResponse = error.error;
-        this.sharedService.errorLog(errorResponse);
+    if (UIconfirmation) {
+      this.deleteCategoryBackend(categoryId);
+    }
+  }
+
+  async deleteCategoryBackend(categoryId: string): Promise<void> {
+    try {
+      const rowsAffected = await this.categoryService.deleteCategory(
+        categoryId
+      );
+      if (rowsAffected.affected > 0) {
+        this.loadCategories();
       }
+    } catch (error: any) {
+      this.sharedService.errorLog(error.error);
     }
   }
 }

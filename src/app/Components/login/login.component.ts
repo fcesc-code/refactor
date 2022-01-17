@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,11 +18,12 @@ import { SharedService } from 'src/app/Services/shared.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.sass'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginUser: AuthDTO;
   email: FormControl;
   password: FormControl;
   loginForm: FormGroup;
+  isValidForm: boolean | null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,6 +33,7 @@ export class LoginComponent implements OnInit {
     private localStorageService: LocalStorageService,
     private router: Router
   ) {
+    this.isValidForm = null;
     this.loginUser = new AuthDTO('', '', '', '');
 
     this.email = new FormControl('', [
@@ -51,48 +53,53 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
-
   async login(): Promise<void> {
-    let responseOK: boolean = false;
-    let errorResponse: any;
-
-    this.loginUser.email = this.email.value;
-    this.loginUser.password = this.password.value;
-    try {
-      const authToken = await this.authService.login(this.loginUser);
-      responseOK = true;
-      this.loginUser.user_id = authToken.user_id;
-      this.loginUser.access_token = authToken.access_token;
-      // save token to localstorage for next requests
-      this.localStorageService.set('user_id', this.loginUser.user_id);
-      this.localStorageService.set('access_token', this.loginUser.access_token);
-    } catch (error: any) {
-      responseOK = false;
-      errorResponse = error.error;
-      const headerInfo: HeaderMenus = {
-        showAuthSection: false,
-        showNoAuthSection: true,
-      };
-      this.headerMenusService.headerManagement.next(headerInfo);
-
-      this.sharedService.errorLog(error.error);
+    this.isValidForm = false;
+    if (this.validateForm()) {
+      this.loginUser.email = this.email.value;
+      this.loginUser.password = this.password.value;
+      try {
+        const authToken = await this.authService.login(this.loginUser);
+        this.loginUser.user_id = authToken.user_id;
+        this.loginUser.access_token = authToken.access_token;
+        this.localStorageService.set('user_id', this.loginUser.user_id);
+        this.localStorageService.set(
+          'access_token',
+          this.loginUser.access_token
+        );
+        await this.sharedService.managementToast('loginFeedback', true);
+        this.setPrivateHeaders();
+        this.router.navigateByUrl('home');
+      } catch (error: any) {
+        this.setPublicHeaders();
+        this.logError(error.error);
+      }
     }
+  }
 
-    await this.sharedService.managementToast(
-      'loginFeedback',
-      responseOK,
-      errorResponse
-    );
+  private async logError(error: any): Promise<void> {
+    this.sharedService.errorLog(error);
+    await this.sharedService.managementToast('loginFeedback', false, error);
+  }
 
-    if (responseOK) {
-      const headerInfo: HeaderMenus = {
-        showAuthSection: true,
-        showNoAuthSection: false,
-      };
-      // update options menu
-      this.headerMenusService.headerManagement.next(headerInfo);
-      this.router.navigateByUrl('home');
-    }
+  private async setPublicHeaders(): Promise<void> {
+    const headerInfo: HeaderMenus = {
+      showAuthSection: false,
+      showNoAuthSection: true,
+    };
+    this.headerMenusService.headerManagement.next(headerInfo);
+  }
+
+  private async setPrivateHeaders(): Promise<void> {
+    const headerInfo: HeaderMenus = {
+      showAuthSection: true,
+      showNoAuthSection: false,
+    };
+    this.headerMenusService.headerManagement.next(headerInfo);
+  }
+
+  private validateForm(): boolean {
+    this.isValidForm = !this.loginForm.invalid;
+    return !this.loginForm.invalid;
   }
 }

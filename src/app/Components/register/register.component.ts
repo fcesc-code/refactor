@@ -95,45 +95,39 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {}
 
   async register(): Promise<void> {
-    let responseOK: boolean = false;
     this.isValidForm = false;
-    let errorResponse: any;
+    if (this.validateForm()) {
+      this.registerUser = this.registerForm.value;
+      try {
+        await this.userService.register(this.registerUser);
+        await this.sharedService.managementToast('registerFeedback', true);
 
-    if (this.registerForm.invalid) {
-      return;
+        this.registerForm.reset();
+        this.birth_date.setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
+
+        this.router.navigateByUrl('home');
+      } catch (error: any) {
+        this.setPublicHeaders();
+        this.logError(error.error);
+      }
     }
+  }
 
-    this.isValidForm = true;
-    this.registerUser = this.registerForm.value;
+  private async logError(error: any): Promise<void> {
+    this.sharedService.errorLog(error);
+    await this.sharedService.managementToast('registerFeedback', false, error);
+  }
 
-    try {
-      await this.userService.register(this.registerUser);
-      responseOK = true;
-    } catch (error: any) {
-      responseOK = false;
-      errorResponse = error.error;
+  private async setPublicHeaders(): Promise<void> {
+    const headerInfo: HeaderMenus = {
+      showAuthSection: false,
+      showNoAuthSection: true,
+    };
+    this.headerMenusService.headerManagement.next(headerInfo);
+  }
 
-      const headerInfo: HeaderMenus = {
-        showAuthSection: false,
-        showNoAuthSection: true,
-      };
-      this.headerMenusService.headerManagement.next(headerInfo);
-
-      this.sharedService.errorLog(errorResponse);
-    }
-
-    await this.sharedService.managementToast(
-      'registerFeedback',
-      responseOK,
-      errorResponse
-    );
-
-    if (responseOK) {
-      // Reset the form
-      this.registerForm.reset();
-      // After reset form we set birthDate to today again (is an example)
-      this.birth_date.setValue(formatDate(new Date(), 'yyyy-MM-dd', 'en'));
-      this.router.navigateByUrl('home');
-    }
+  private validateForm(): boolean {
+    this.isValidForm = !this.registerForm.invalid;
+    return this.isValidForm;
   }
 }
